@@ -2,11 +2,74 @@ plugins {
 	id 'org.springframework.boot' version '2.7.0-M2'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id "org.flywaydb.flyway" version "8.5.0"
+	id 'nu.studer.jooq' version '7.1.1'
 }
 
 group = 'com.github.atomfrede.javaland'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+		vendor = JvmVendorSpec.ADOPTIUM
+	}
+}
+
+ext {
+	set('springCloudVersion', "2021.0.2-SNAPSHOT")
+	set('testcontainersVersion', "1.16.2")
+	jooqVersion = '3.16.4'
+	postgresVersion = '42.3.3'
+}
+
+sourceSets.main.java.srcDirs += ['src/jooq/java']
+
+flyway {
+	url = 'jdbc:postgresql://localhost:5432/beleidigungsduell'
+	user = 'beleidigungsduell'
+	locations = ['classpath:db/migration']
+	outOfOrder = true
+}
+
+jooq {
+	version = "$jooqVersion"
+	configurations {
+		beleidigunsgduellSchema {
+			generationTool {
+				logging = org.jooq.meta.jaxb.Logging.WARN
+				jdbc {
+					driver = 'org.postgresql.Driver'
+					url = 'jdbc:postgresql://localhost:5432/beleidigungsduell'
+					user = 'beleidigungsduell'
+				}
+				generator {
+					name = 'org.jooq.codegen.JavaGenerator'
+					strategy {
+						name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+					}
+					database {
+						name = 'org.jooq.meta.postgres.PostgresDatabase'
+						inputSchema = 'public'
+						excludes = 'flyway_schema_history|persistent_logins'
+
+					}
+					generate {
+						relations = true
+						deprecated = false
+						records = true
+						immutablePojos = false
+						fluentSetters = true
+					}
+					target {
+						packageName = 'com.github.atomfrede.javaland.beleidigungsduell.gen.jooq'
+						directory = 'src/jooq/java'
+					}
+				}
+			}
+		}
+	}
+}
 
 repositories {
 	mavenCentral()
@@ -14,10 +77,7 @@ repositories {
 	maven { url 'https://repo.spring.io/snapshot' }
 }
 
-ext {
-	set('springCloudVersion', "2021.0.2-SNAPSHOT")
-	set('testcontainersVersion', "1.16.2")
-}
+
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jooq'
@@ -25,8 +85,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
+	implementation 'com.opencsv:opencsv:5.6'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
+	jooqGenerator "org.postgresql:postgresql:$postgresVersion"
+	jooqGenerator "org.jooq:jooq:$jooqVersion"
+	jooqGenerator "org.jooq:jooq-meta:$jooqVersion"
+	jooqGenerator "org.jooq:jooq-codegen:$jooqVersion"
+	jooqGenerator "jakarta.xml.bind:jakarta.xml.bind-api:3.0.1"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation 'org.testcontainers:postgresql'

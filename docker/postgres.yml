@@ -1,0 +1,12 @@
+version: '3'
+services:
+  beleidigungsduell-postgresql:
+    image: postgres:14
+    # volumes:
+    #     - ~/volumes/javaland/beleidigungsduell/postgresql/:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=beleidigungsduell
+      - POSTGRES_PASSWORD=
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - "127.0.0.1:5432:5432"
