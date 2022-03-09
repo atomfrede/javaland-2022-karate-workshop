@@ -2,9 +2,10 @@ package com.github.atomfrede.javaland.beleidigungsduell.storage;
 
 import com.github.atomfrede.javaland.beleidigungsduell.BeleidigungsDatensatz;
 import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 import org.springframework.stereotype.Component;
 
-import static com.github.atomfrede.javaland.beleidigungsduell.gen.jooq.Tables.*;
+import static com.github.atomfrede.javaland.beleidigungsduell.gen.jooq.Tables.BELEIDIGUNG;
 
 @Component
 public class BeleidigungsQueries {
@@ -29,5 +30,20 @@ public class BeleidigungsQueries {
                     return result;
                 });
 
+    }
+
+    public BeleidigungsDatensatz random() {
+
+        return jooq.selectFrom(BELEIDIGUNG)
+                .orderBy(DSL.rand())
+                .limit(1)
+                .fetchOne()
+                .map(r -> {
+                            BeleidigungsDatensatz result = new BeleidigungsDatensatz(r.get(BELEIDIGUNG.ID), r.get(BELEIDIGUNG.BELEIDIGUNGS_ID), r.get(BELEIDIGUNG.ANTWORT_ID));
+                            result.setBeleidigungs_template(r.get(BELEIDIGUNG.BELEIDIGUNGS_TEMPLATE));
+                            result.setBeleidigungs_template(r.get(BELEIDIGUNG.ANTWORT_TEMPLATE));
+                            return result;
+                        }
+                );
     }
 }
