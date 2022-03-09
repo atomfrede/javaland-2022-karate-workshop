@@ -410,6 +410,6 @@ gradle-app.setting
 
 # End of https://www.toptal.com/developers/gitignore/api/java,macos,gradle,eclipse,intellij,intellij+all,intellij+iml,visualstudiocode,maven
 
-src/main/api/pom.xml
-src/main/api/README.md
-src/main/api/.openapi-generator*
+src/api/pom.xml
+src/api/README.md
+src/api/.openapi-generator*

@@ -18,7 +18,7 @@ import javax.annotation.Generated;
  * BeleidigungUpdate
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-03-09T09:08:42.583667+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-03-09T09:22:11.953756+01:00[Europe/Berlin]")
 public class BeleidigungUpdate   {
 
   @JsonProperty("beleidigungs_template")

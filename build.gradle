@@ -17,6 +17,11 @@ java {
 	}
 }
 
+
+bootJar {
+	mainClass = 'com.github.atomfrede.javaland.beleidigungsduell.BeleidigungsduellApplication'
+}
+
 ext {
 	set('springCloudVersion', "2021.0.2-SNAPSHOT")
 	set('testcontainersVersion', "1.16.2")
@@ -84,9 +89,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jooq'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.openapitools:jackson-databind-nullable:0.2.2'
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.2'
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
 	implementation 'com.opencsv:opencsv:5.6'
+	implementation 'io.swagger.core.v3:swagger-annotations:2.1.12'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
 	jooqGenerator "org.postgresql:postgresql:$postgresVersion"
@@ -119,7 +128,7 @@ task validateAdminApi(type: org.openapitools.generator.gradle.plugin.tasks.Valid
 task generateAdminApi(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
 	generatorName = "spring"
 	inputSpec = "$rootDir/src/main/resources/api-specs/server/AdminApi.yml"
-	outputDir = "$rootDir/src/main/api/".toString()
+	outputDir = "$rootDir/src/api/".toString()
 	apiPackage = "com.github.atomfrede.javaland.beleidigungsduell.api.admin"
 	invokerPackage = "com.github.atomfrede.javaland.beleidigungsduell.api.admin.invoker"
 	modelPackage = "com.github.atomfrede.javaland.beleidigungsduell.api.admin.model"
@@ -127,4 +136,3 @@ task generateAdminApi(type: org.openapitools.generator.gradle.plugin.tasks.Gener
 			dateLibrary: "java8"
 	]
 }
-
