@@ -17,25 +17,29 @@
     <div class="container">
         <div class="row">
             <div class="col-6">
+                <h2 th:text="${start.beleidigungs_template}">
+                    ...
+                </h2>
                 <img th:src="@{/img/MI_5.jpg}" class="img-fluid" alt="Monkey Island" />
             </div>
             <div class="col-6">
                 <form>
+                    <input type="hidden" th:value="${start.beleidigungsId}">
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <label class="form-check-label" for="flexRadioDefault1">
+                    <input class="form-check-input" type="radio" th:name="${first.antwortId}" th:id="${first.antwortId}" checked>
+                    <label class="form-check-label" th:for="${first.antwortId}" th:text="${first.antwort_template}">
                         Default radio
                     </label>
                 </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
+                        <input class="form-check-input" type="radio" th:name="${second.antwortId}" th:id="${second.antwortId}">
+                        <label class="form-check-label" th:for="${second.antwortId}" th:text="${second.antwort_template}">
                             Default radio
                         </label>
                     </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                    <label class="form-check-label" for="flexRadioDefault2">
+                    <input class="form-check-input" type="radio" th:name="${third.antwortId}" th:id="${third.antwortId}">
+                    <label class="form-check-label" th:for="${third.antwortId}" th:text="${third.antwort_template}">
                         Default checked radio
                     </label>
                 </div>

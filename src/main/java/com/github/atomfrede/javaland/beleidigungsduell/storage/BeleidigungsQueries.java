@@ -26,7 +26,7 @@ public class BeleidigungsQueries {
                 .map(r -> {
                     BeleidigungsDatensatz result = new BeleidigungsDatensatz(r.get(BELEIDIGUNG.ID), r.get(BELEIDIGUNG.BELEIDIGUNGS_ID), r.get(BELEIDIGUNG.ANTWORT_ID));
                     result.setBeleidigungs_template(r.get(BELEIDIGUNG.BELEIDIGUNGS_TEMPLATE));
-                    result.setBeleidigungs_template(r.get(BELEIDIGUNG.ANTWORT_TEMPLATE));
+                    result.setAntwort_template(r.get(BELEIDIGUNG.ANTWORT_TEMPLATE));
                     return result;
                 });
 
@@ -41,7 +41,7 @@ public class BeleidigungsQueries {
                 .map(r -> {
                             BeleidigungsDatensatz result = new BeleidigungsDatensatz(r.get(BELEIDIGUNG.ID), r.get(BELEIDIGUNG.BELEIDIGUNGS_ID), r.get(BELEIDIGUNG.ANTWORT_ID));
                             result.setBeleidigungs_template(r.get(BELEIDIGUNG.BELEIDIGUNGS_TEMPLATE));
-                            result.setBeleidigungs_template(r.get(BELEIDIGUNG.ANTWORT_TEMPLATE));
+                            result.setAntwort_template(r.get(BELEIDIGUNG.ANTWORT_TEMPLATE));
                             return result;
                         }
                 );
