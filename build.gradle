@@ -4,6 +4,7 @@ plugins {
 	id 'java'
 	id "org.flywaydb.flyway" version "8.5.0"
 	id 'nu.studer.jooq' version '7.1.1'
+	id "org.openapi.generator" version "5.4.0"
 }
 
 group = 'com.github.atomfrede.javaland'
@@ -23,7 +24,7 @@ ext {
 	postgresVersion = '42.3.3'
 }
 
-sourceSets.main.java.srcDirs += ['src/jooq/java']
+sourceSets.main.java.srcDirs += ['src/jooq/java', 'src/api/src/main/java']
 
 flyway {
 	url = 'jdbc:postgresql://localhost:5432/beleidigungsduell'
@@ -108,3 +109,22 @@ dependencyManagement {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+task validateAdminApi(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+	inputSpec = "$rootDir/src/main/resources/api-specs/server/AdminApi.yml"
+	recommend = true
+}
+
+
+task generateAdminApi(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+	generatorName = "spring"
+	inputSpec = "$rootDir/src/main/resources/api-specs/server/AdminApi.yml"
+	outputDir = "$rootDir/src/main/api/".toString()
+	apiPackage = "com.github.atomfrede.javaland.beleidigungsduell.api.admin"
+	invokerPackage = "com.github.atomfrede.javaland.beleidigungsduell.api.admin.invoker"
+	modelPackage = "com.github.atomfrede.javaland.beleidigungsduell.api.admin.model"
+	configOptions = [
+			dateLibrary: "java8"
+	]
+}
+

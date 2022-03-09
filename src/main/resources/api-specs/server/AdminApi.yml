@@ -1,0 +1,265 @@
+openapi: 3.0.0
+info:
+  title: Beleidigungs-Duell Administrations API
+  version: "v1"
+
+#servers:
+#  - url: 'http://group.default.svc/group/v3'
+
+paths:
+  /beleidigungen:
+    x-resource: BeleidigungsResource
+    get:
+      operationId: listBeleidigungen
+      description: |
+        Get a collection of groups.
+      parameters:
+        - name: limit
+          in: query
+          description: Number of entries per page, also known as page size.
+          required: false
+          schema:
+            default: 10
+            minimum: 0
+            maximum: 100
+            type: integer
+            format: int32
+        - name: offset
+          in: query
+          description: Numeric offset identifying the first page entry.
+          required: false
+          schema:
+            default: 0
+            minimum: 0
+            type: integer
+            format: int32
+      tags:
+        - Beleidigungen
+      responses:
+        200:
+          $ref: '#/components/responses/200_Beleidigungen'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        default:
+          $ref: '#/components/responses/default'
+
+    post:
+      summary: Erstelle einen neue Beleidigungs-Datensatz
+      operationId: createBeleidigung
+      requestBody:
+        description: der neue Beleidigungs-Datensatz
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBeleidigung'
+      tags:
+        - Beleidigungen
+      responses:
+        201:
+          $ref: '#/components/responses/201_BeleidigungCreated'
+        400:
+          $ref: '#/components/responses/400'
+        403:
+          $ref: '#/components/responses/403'
+        default:
+          $ref: '#/components/responses/default'
+
+  /beleidigungen/{beleidigung-id}:
+    x-resource: BeleidigungResource
+    get:
+      operationId: readBeleidigung
+      tags:
+        - Beleidigung
+      responses:
+        200:
+          $ref: '#/components/responses/200_Beleidigung'
+        404:
+          $ref: '#/components/responses/404_BeleidigungDoesNotExist'
+        default:
+          $ref: '#/components/responses/default'
+
+    put:
+      summary: Existierende Beleidigung aktualisieren
+      operationId: updateBeleidigung
+      requestBody:
+        description: Beleidigungs-Datensatz der aktualisiert werden soll.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BeleidigungUpdate'
+      tags:
+        - Beleidigung
+      responses:
+        204:
+          $ref: '#/components/responses/204_BeleidigungUpdated'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404_GroupDoesNotExist'
+        default:
+          $ref: '#/components/responses/default'
+
+    delete:
+      summary: Beleidigungs-Datensatz löschen
+      operationId: deleteGroup
+      tags:
+        - Beleidigung
+      responses:
+        204:
+          $ref: '#/components/responses/204_BeleidigungDeleted'
+        404:
+          $ref: '#/components/responses/404_BeleidigungDoesNotExist'
+        default:
+          $ref: '#/components/responses/default'
+components:
+  responses:
+    200_Beleidigungen:
+      description: Der neue Beleidunges-Datensatz wurde erfolgreich erstellt.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Beleidigungen'
+    200_BeleidigungProvided:
+      description: The group was provided successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Beleidigung'
+    201_BeleidigungCreated:
+      description: Der BeleidigungsDatensatz wurde erfolgreich erstellt. 
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Beleidigung'
+    204_BeleidigungUpdated:
+      description: Der Beleidigungs-Datensatz wurde erfolgreich aktualisiert.
+    204_BeleidigungDeleted:
+      description: Der Beleidigungs-Datensaz wurde erfolgreich gelöscht.
+    400:
+      description: Die gesendet Anfrage ist ungültig.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    404_BeleidigungDoesNotExist:
+      description: Der Beleidigung-Datensatz konnte in der Datenbank nicht gefunden werden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+    default:
+      description: An unexpected error occured.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+  ################################################################################
+  #                                   Definitions                                #
+  ################################################################################
+  schemas:
+    CreateBeleidigung:
+      type: object
+      required:
+        - beleidigungs_template
+        - antwort_template
+      properties:
+        beleidigungs_template:
+          $ref: '#/components/schemas/BeleidigungsTemplate'
+        antwort_template:
+          $ref: '#/components/schemas/AntwortTemplate'
+
+    BeleidigungUpdate:
+      type: object
+#      description: Representation of a group containing all necessary information to update an existing group.
+      required:
+        - beleidigungs_template
+        - antwort_template
+      properties:
+        beleidigungs_template:
+          $ref: '#/components/schemas/BeleidigungsTemplate'
+        antwort_template:
+          $ref: '#/components/schemas/AntwortTemplate'
+
+
+    Beleidigungen:
+      type: object
+#      description: Representation of a search result for groups.
+      properties:
+        _total_count:
+          type: integer
+          format: int64
+          description: Gesamtzahl der Beleidigungs-Datensätze.
+        _params:
+          $ref: '#/components/schemas/BeleidigungenParams'
+        items:
+          type: array
+          description: Liste von Beleidigungs-Datensätzen.
+          items:
+            $ref: '#/components/schemas/Beleidigung'
+
+    BeleidigungenParams:
+      type: object
+      description: Representation of the provided search parameters.
+      properties:
+        limit:
+          type: integer
+          description: Value of input parameter 'limit'.
+        offset:
+          type: integer
+          description: Value of input parameter 'offset'.
+
+    Beleidigung:
+      description: Representation of a group containing all available information.
+      type: object
+      properties:
+        id:
+          type: number
+          minimum: 0
+        beleidigungs_id:
+          type: string
+          format: uuid
+        antwort_id:
+          type: string
+          format: uuid
+        beleidigungs_template:
+          $ref: '#/components/schemas/BeleidigungsTemplate'
+        antwort_template:
+          $ref: '#/components/schemas/AntwortTemplate'
+
+    BeleidigungsTemplate:
+      type: string
+      description: |
+        Beleidigender Satz, wo bei `%s` als platzhalter für eine zufällige Beleidigung verwendet werden kann.
+      example: Du kämpfst wie ein dummer %s!
+
+    AntwortTemplate:
+      type: string
+      description: |
+        Richtige Antwort auf die Beleidigung, wo bei `%s` als platzhalter für eine zufällige Beleidigung verwendet werden kann.
+      example: Wie passend. Du kämpfst wie eine %s.
+
+
+    # Inspired by: https://github.com/zalando/problem
+    Problem:
+      type: object
+      properties:
+        title:
+          type: string
+          description: A short, summary of the problem type. Written in english and readable for engineers (usually not suited for non technical stakeholders and not localized);
+          example: Service Unavailable
+        status:
+          type: integer
+          format: int32
+          description: The HTTP status code generated by the origin server for this occurrence of the problem.
+          minimum: 100
+          maximum: 600
+          exclusiveMaximum: true
+          example: 503
+        detail:
+          type: string
+          description: A human readable explanation specific to this occurrence of the problem.
+          example: Connection to database timed out
