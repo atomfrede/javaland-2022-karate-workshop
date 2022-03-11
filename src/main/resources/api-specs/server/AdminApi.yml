@@ -21,7 +21,7 @@ paths:
           schema:
             default: 10
             minimum: 0
-            maximum: 100
+            maximum: 1000
             type: integer
             format: int32
         - name: offset
@@ -73,6 +73,12 @@ paths:
       operationId: readBeleidigung
       tags:
         - Beleidigung
+      parameters:
+        - in: path
+          name: beleidigung-id
+          required: true
+          schema:
+            type: integer
       responses:
         200:
           $ref: '#/components/responses/200_Beleidigung'
@@ -84,6 +90,12 @@ paths:
     put:
       summary: Existierende Beleidigung aktualisieren
       operationId: updateBeleidigung
+      parameters:
+        - in: path
+          name: beleidigung-id
+          required: true
+          schema:
+            type: integer
       requestBody:
         description: Beleidigungs-Datensatz der aktualisiert werden soll.
         required: true
@@ -105,7 +117,13 @@ paths:
 
     delete:
       summary: Beleidigungs-Datensatz löschen
-      operationId: deleteGroup
+      operationId: deleteBeleidigung
+      parameters:
+        - in: path
+          name: beleidigung-id
+          required: true
+          schema:
+            type: integer
       tags:
         - Beleidigung
       responses:
@@ -123,8 +141,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Beleidigungen'
+    200_Beleidigung:
+      description: Der angefragte Beleidungs-Datensatz.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Beleidigung'
     200_BeleidigungProvided:
-      description: The group was provided successfully.
+      description: Beleidungs-Datensatz erfolgreich aktualisiert.
       content:
         application/json:
           schema:

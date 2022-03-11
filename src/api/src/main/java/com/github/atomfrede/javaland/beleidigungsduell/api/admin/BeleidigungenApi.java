@@ -20,7 +20,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +33,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-03-09T09:22:11.953756+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-03-11T16:58:44.288980+01:00[Europe/Berlin]")
 @Validated
 @Tag(name = "beleidigungen", description = "the beleidigungen API")
 public interface BeleidigungenApi {
@@ -89,12 +88,13 @@ public interface BeleidigungenApi {
     /**
      * DELETE /beleidigungen/{beleidigung-id} : Beleidigungs-Datensatz löschen
      *
+     * @param beleidigungId  (required)
      * @return Der Beleidigungs-Datensaz wurde erfolgreich gelöscht. (status code 204)
      *         or Der Beleidigung-Datensatz konnte in der Datenbank nicht gefunden werden. (status code 404)
      *         or An unexpected error occured. (status code 200)
      */
     @Operation(
-        operationId = "deleteGroup",
+        operationId = "deleteBeleidigung",
         summary = "Beleidigungs-Datensatz löschen",
         tags = { "Beleidigung" },
         responses = {
@@ -108,8 +108,8 @@ public interface BeleidigungenApi {
         value = "/beleidigungen/{beleidigung-id}",
         produces = { "application/json" }
     )
-    default ResponseEntity<Void> deleteGroup(
-        
+    default ResponseEntity<Void> deleteBeleidigung(
+        @Parameter(name = "beleidigung-id", description = "", required = true, schema = @Schema(description = "")) @PathVariable("beleidigung-id") Integer beleidigungId
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -163,7 +163,8 @@ public interface BeleidigungenApi {
     /**
      * GET /beleidigungen/{beleidigung-id}
      *
-     * @return  (status code 200)
+     * @param beleidigungId  (required)
+     * @return Der angefragte Beleidungs-Datensatz. (status code 200)
      *         or Der Beleidigung-Datensatz konnte in der Datenbank nicht gefunden werden. (status code 404)
      *         or An unexpected error occured. (status code 200)
      */
@@ -171,7 +172,7 @@ public interface BeleidigungenApi {
         operationId = "readBeleidigung",
         tags = { "Beleidigung" },
         responses = {
-            @ApiResponse(responseCode = "200", description = ""),
+            @ApiResponse(responseCode = "200", description = "Der angefragte Beleidungs-Datensatz.", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Beleidigung.class))),
             @ApiResponse(responseCode = "404", description = "Der Beleidigung-Datensatz konnte in der Datenbank nicht gefunden werden.", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Problem.class))),
             @ApiResponse(responseCode = "200", description = "An unexpected error occured.", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Problem.class)))
         }
@@ -181,9 +182,18 @@ public interface BeleidigungenApi {
         value = "/beleidigungen/{beleidigung-id}",
         produces = { "application/json" }
     )
-    default ResponseEntity<Void> readBeleidigung(
-        
+    default ResponseEntity<Beleidigung> readBeleidigung(
+        @Parameter(name = "beleidigung-id", description = "", required = true, schema = @Schema(description = "")) @PathVariable("beleidigung-id") Integer beleidigungId
     ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"antwort_template\" : \"Wie passend. Du kämpfst wie eine %s.\", \"beleidigungs_id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\", \"antwort_id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\", \"id\" : 0.5962133916683182, \"beleidigungs_template\" : \"Du kämpfst wie ein dummer %s!\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -192,6 +202,7 @@ public interface BeleidigungenApi {
     /**
      * PUT /beleidigungen/{beleidigung-id} : Existierende Beleidigung aktualisieren
      *
+     * @param beleidigungId  (required)
      * @param beleidigungUpdate Beleidigungs-Datensatz der aktualisiert werden soll. (required)
      * @return Der Beleidigungs-Datensatz wurde erfolgreich aktualisiert. (status code 204)
      *         or Die gesendet Anfrage ist ungültig. (status code 400)
@@ -216,6 +227,7 @@ public interface BeleidigungenApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> updateBeleidigung(
+        @Parameter(name = "beleidigung-id", description = "", required = true, schema = @Schema(description = "")) @PathVariable("beleidigung-id") Integer beleidigungId,
         @Parameter(name = "BeleidigungUpdate", description = "Beleidigungs-Datensatz der aktualisiert werden soll.", required = true, schema = @Schema(description = "")) @Valid @RequestBody BeleidigungUpdate beleidigungUpdate
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

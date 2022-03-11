@@ -48,6 +48,7 @@ jooq {
 					driver = 'org.postgresql.Driver'
 					url = 'jdbc:postgresql://localhost:5432/beleidigungsduell'
 					user = 'beleidigungsduell'
+					password = 'beleidigungsduell'
 				}
 				generator {
 					name = 'org.jooq.codegen.JavaGenerator'
@@ -133,6 +134,7 @@ task generateAdminApi(type: org.openapitools.generator.gradle.plugin.tasks.Gener
 	invokerPackage = "com.github.atomfrede.javaland.beleidigungsduell.api.admin.invoker"
 	modelPackage = "com.github.atomfrede.javaland.beleidigungsduell.api.admin.model"
 	configOptions = [
-			dateLibrary: "java8"
+			dateLibrary: "java8",
+			interfaceOnly: "true"
 	]
 }

@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  * Beleidigungen
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-03-09T09:22:11.953756+01:00[Europe/Berlin]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-03-11T16:58:44.288980+01:00[Europe/Berlin]")
 public class Beleidigungen   {
 
   @JsonProperty("_total_count")

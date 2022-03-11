@@ -1,2 +1,15 @@
 # javaland-2022-karate-workshop
 Sample application and code for Testing mit Karate at Javaland 2022
+
+
+
+## Start Application
+
+This application requires a postgresql database.
+
+Simply execute the following docker command:
+
+[source, bash]
+----
+$ docker run -d --name beleidigungs_duell_postgres -e POSTGRES_USER=beleidigungsduell -e POSTGRES_PASSWORD="" -e POSTGRES_DB=beleidigungsduell  postgres
+----
