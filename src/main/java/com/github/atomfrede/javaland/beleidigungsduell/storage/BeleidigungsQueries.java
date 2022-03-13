@@ -81,12 +81,6 @@ public class BeleidigungsQueries {
                             return result;
                         }
                 );
-            .set(BELEIDIGUNG.BELEIDIGUNGS_TEMPLATE, beleidigungsDatensatz.getBeleidigungs_template())
-            .set(BELEIDIGUNG.ANTWORT_TEMPLATE, beleidigungsDatensatz.getAntwort_template())
-            .returning()
-            .fetchOne()
-            .map(this::mapBeleidigungsDatensatz);
-
     }
 
     private BeleidigungsDatensatz mapBeleidigungsDatensatz(org.jooq.Record r) {
