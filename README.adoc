@@ -1,6 +1,14 @@
 # javaland-2022-karate-workshop
 Sample application and code for Testing mit Karate at Javaland 2022
 
+## Resources
+
+Karate is a DSL for Testautomation. A comprehensive documentation can be found here:
+
+https://github.com/karatelabs/karate
+
+
+https://github.com/karatelabs/karate/tree/master/karate-netty
 
 
 ## Start Application
@@ -13,3 +21,8 @@ Simply execute the following docker command:
 ----
 $ docker run -d --name beleidigungs_duell_postgres -e POSTGRES_USER=beleidigungsduell -e POSTGRES_PASSWORD="" -e POSTGRES_DB=beleidigungsduell  postgres
 ----
+
+
+## Start Testing
+
+
