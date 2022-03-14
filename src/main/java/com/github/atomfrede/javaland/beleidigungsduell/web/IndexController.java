@@ -4,6 +4,7 @@ import com.github.atomfrede.javaland.beleidigungsduell.BeleidigungsDatensatz;
 import com.github.atomfrede.javaland.beleidigungsduell.service.DuellService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
+import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,15 +29,14 @@ public class IndexController {
     @GetMapping
     public String index(Model model) {
 
-        BeleidigungsDatensatz first = duellService.getNext();
-        BeleidigungsDatensatz second = duellService.getNext();
-        BeleidigungsDatensatz third = duellService.getNext();
+        Triple<BeleidigungsDatensatz, BeleidigungsDatensatz, BeleidigungsDatensatz> next3x = duellService.getNext3x();
 
-        model.addAttribute("first", first);
-        model.addAttribute("second", second);
-        model.addAttribute("third", third);
 
-        List<BeleidigungsDatensatz> all = Arrays.asList(first, second, third);
+        model.addAttribute("first", next3x.getLeft());
+        model.addAttribute("second", next3x.getMiddle());
+        model.addAttribute("third", next3x.getRight());
+
+        List<BeleidigungsDatensatz> all = Arrays.asList(next3x.getLeft(), next3x.getMiddle(), next3x.getRight());
         Collections.shuffle(all);
 
         model.addAttribute("start", all.get(random.nextInt(3)));

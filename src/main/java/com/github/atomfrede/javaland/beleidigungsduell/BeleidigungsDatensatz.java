@@ -43,4 +43,14 @@ public class BeleidigungsDatensatz {
     public void setAntwort_template(String antwort_template) {
         this.antwort_template = antwort_template;
     }
+
+    public BeleidigungsDatensatz fillBeleidigungsTemplate(String text) {
+        this.beleidigungs_template = beleidigungs_template.formatted(text);
+        return this;
+    }
+
+    public BeleidigungsDatensatz fillAntwortTemplate(String text) {
+        this.antwort_template = antwort_template.formatted(text);
+        return this;
+    }
 }
