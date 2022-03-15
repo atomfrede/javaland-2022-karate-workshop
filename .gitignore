@@ -413,3 +413,5 @@ gradle-app.setting
 src/api/pom.xml
 src/api/README.md
 src/api/.openapi-generator*
+
+.vscode
