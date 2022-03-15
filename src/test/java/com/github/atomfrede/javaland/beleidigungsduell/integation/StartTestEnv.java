@@ -11,7 +11,7 @@ import com.github.atomfrede.javaland.beleidigungsduell.BeleidigungsduellApplicat
  * directly requesting this application.
  */
 public class StartTestEnv extends AbstractJooqTest {
-    
+
      static KarateMockServerExtension losSchimpfosApiMock =
         KarateMockServerExtension.create(KarateIntegrationTest.class,
             "mock/LosSchimpfosApiMock.feature");

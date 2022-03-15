@@ -5,11 +5,17 @@ Sample application and code for Testing mit Karate at Javaland 2022
 
 Karate is a DSL for Testautomation. A comprehensive documentation can be found here:
 
-https://github.com/karatelabs/karate
+https://karatelabs.github.io/karate/
 
 
-https://github.com/karatelabs/karate/tree/master/karate-netty
+Karate Mock is a feature to write API mocks using the same language as you use for API testing.
 
+https://karatelabs.github.io/karate/karate-netty/
+
+
+Karate UI Test:
+
+https://karatelabs.github.io/karate/karate-core/#karate-ui
 
 ## Start Application
 

@@ -19,6 +19,9 @@ function fn() {
             bleidigungs_app: `http://localhost:${getProperty('bleidigungs_app_port', 8080)}`,
             los_schimpfos_api: "https://los-schimpfos.de",
             los_schimpfos_api_mock: `http://localhost:${getProperty('los_schimpfos_api_mock_port', 8081)}`
+        },
+        config: {
+            headlessTest: true
         }
     }
 
@@ -28,13 +31,19 @@ function fn() {
 
     karate.configure('connectTimeout', 200000);
     karate.configure('readTimeout', 200000);
-    karate.configure('retry', {count:3, interval: 3000});
+    karate.configure('retry', {count: 3, interval: 3000});
 
     karate.configure('logPrettyRequest', true);
     karate.configure('logPrettyResponse', true);
     karate.configure('abortedStepsShouldPass', true);
     karate.configure('followRedirects', false);
-    karate.configure('report', { showLog: true, showAllSteps: true });
+    karate.configure('report', {showLog: true, showAllSteps: true});
 
+    karate.configure('driver', {
+        type: 'chrome',
+        headless: getProperty("headless", "false") == 'true',
+        showDriverLog: true,
+        start: true}
+    );
     return config;
 }

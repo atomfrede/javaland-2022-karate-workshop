@@ -4,11 +4,10 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
-
-import com.intuit.karate.junit5.Karate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.TestPropertySource;
+
+import com.intuit.karate.junit5.Karate;
 
 /**
  *
@@ -26,17 +25,21 @@ public class KarateIntegrationTest {
 
     @DynamicPropertySource
     static void losSchimpfosMockConfig(DynamicPropertyRegistry registry) {
+
         registry.add("javaland.losshimpfos.api", () -> "%s/schimpfos-wortos.php".formatted(losSchimpfosApiMock.getBaseUrl()));
     }
+
     @Karate.Test
     public Karate runTestSuite() {
 
         final Karate runner = Karate.run(
                 "AdminApi.feature",
-                "mock/LosSchimpfosApiTest.feature"
+                "mock/LosSchimpfosApiTest.feature",
+                "UiTest.feature"
             )
             .systemProperty("bleidigungs_app_port", bleidigungsAppPort + "")
             .systemProperty("los_schimpfos_api_mock_port", losSchimpfosApiMock.getPort() + "")
+            .systemProperty("headless", "true")
             //             Ignore every Scenario tagged with @Ignore
             .tags("~@ignore", "~@Ignore");
 
