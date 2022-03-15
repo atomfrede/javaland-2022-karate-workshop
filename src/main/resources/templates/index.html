@@ -36,7 +36,7 @@
                     <input type="hidden" th:value="${start.beleidigungsId}" name="beleidigung">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="antwort"
-                               th:id="${first.antwortId}" th:value="${first.antwortId}" checked>
+                               th:id="${'I' + first.antwortId}" th:value="${first.antwortId}" checked>
                         <label class="form-check-label" th:for="${first.antwortId}" th:text="${first.antwort_template}">
                             Default radio
                         </label>
