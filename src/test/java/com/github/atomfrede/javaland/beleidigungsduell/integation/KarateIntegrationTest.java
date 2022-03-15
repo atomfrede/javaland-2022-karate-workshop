@@ -6,6 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 
 import com.intuit.karate.junit5.Karate;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 
 /**
  *
@@ -21,6 +24,10 @@ public class KarateIntegrationTest {
     @LocalServerPort
     private int bleidigungsAppPort;
 
+    @DynamicPropertySource
+    static void losSchimpfosMockConfig(DynamicPropertyRegistry registry) {
+        registry.add("javaland.losshimpfos.api", () -> "%s/schimpfos-wortos.php".formatted(losSchimpfosApiMock.getBaseUrl()));
+    }
     @Karate.Test
     public Karate runTestSuite() {
 
