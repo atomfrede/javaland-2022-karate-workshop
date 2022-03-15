@@ -4,22 +4,22 @@ function fn() {
 
     karate.log(`Karate environment is: ${karate.env}`);
 
-    var portFor = (name, defaultPort) => {
+    var getProperty = (name, fallback
+    ) => {
         var port = karate.properties[name];
         if (!port) {
-            port = defaultPort;
+            port = fallback
+            ;
         }
         return port;
     }
 
     var config = {
-        ports : {
-            bleidigungs_app_port: portFor('bleidigungs_app_port', 8080)
+        baseUrls: {
+            bleidigungs_app: `http://localhost:${getProperty('bleidigungs_app_port', 8080)}`,
+            los_schimpfos_api: "https://los-schimpfos.de",
+            los_schimpfos_api_mock: `http://localhost:${getProperty('los_schimpfos_api_mock_port', 8081)}`
         }
-    }
-
-    config.baseUrls = {
-        bleidigungs_app: `http://localhost:${config.ports.bleidigungs_app_port}`,
     }
 
     config.uuid = () => {
