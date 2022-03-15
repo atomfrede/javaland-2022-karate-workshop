@@ -15,7 +15,8 @@ import com.intuit.karate.junit5.Karate;
 public class KarateIntegrationTest {
 
     @RegisterExtension static KarateMockServerExtension losSchimpfosApiMock =
-        KarateMockServerExtension.create(KarateIntegrationTest.class, "mock/LosSchimpfosApiMock.feature");
+        KarateMockServerExtension.create(KarateIntegrationTest.class,
+            "mock/LosSchimpfosApiMock.feature");
 
     @LocalServerPort
     private int bleidigungsAppPort;
