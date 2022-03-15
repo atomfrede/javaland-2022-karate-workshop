@@ -29,17 +29,31 @@ Simply execute the following docker command:
 $ docker-compose -f docker/postgres.yml up -d
 ----
 
+Visit the application on http://localhost:8080 after startup.
+
+The Swagger Doc can be seen on http://localhost:8080/swagger-ui/index.html
+
+
 ## Architecture
 
 [plantuml, target=diagram-classes, format=png]
 ----
-API - [Duell Application]
+AdminApi - [Duell Application]
 WEB - [Duell Application]
 [Duell Application] ..> JDBC : postgres
 [Duell Application] ..> HTTP : los-schimpfos.de/schimpfos-wortos.php
 ----
 
 ## Start Testing
+
+The `com.github.atomfrede.javaland.beleidigungsduell.integation.StartTestEnv`
+class can be used to start the application in "Test-Mode".
+
+Test mode means that a PostgresSQL is started with testcontainers and
+the Los Schimpfos API is replaced by a Karate Mock implementation.
+
+This enables you to execute your integration test fast and reliable,
+because this is the same setup used when running integration test.
 
 ## Follow Us
 
