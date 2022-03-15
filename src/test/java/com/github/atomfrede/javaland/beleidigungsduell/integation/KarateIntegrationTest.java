@@ -24,7 +24,8 @@ public class KarateIntegrationTest {
     public Karate runTestSuite() {
 
         final Karate runner = Karate.run(
-                "AdminApi.feature"
+                "AdminApi.feature",
+                "mock/LosSchimpfosApiTest.feature"
             )
             .systemProperty("bleidigungs_app_port", bleidigungsAppPort + "")
             .systemProperty("los_schimpfos_api_mock_port", losSchimpfosApiMock.getPort() + "")
