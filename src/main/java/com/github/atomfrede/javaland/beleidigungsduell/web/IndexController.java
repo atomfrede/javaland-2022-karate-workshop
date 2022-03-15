@@ -38,7 +38,7 @@ public class IndexController {
     public String getIndex(Model model, @RequestParam(required = false) String fixedId) {
 
         if (StringUtils.isNotBlank(fixedId) && Objects.nonNull(tryParse(fixedId))) {
-            BeleidigungsDatensatz fixed = this.duellService.getFixed(UUID.fromString(fixedId));
+            BeleidigungsDatensatz fixed = duellService.getFixed(UUID.fromString(fixedId));
             BeleidigungsDatensatz second = duellService.getNext();
             BeleidigungsDatensatz third = duellService.getNext();
 
@@ -48,6 +48,8 @@ public class IndexController {
             model.addAttribute("third", third);
 
             model.addAttribute("start", fixed);
+
+            return "index";
         } else {
 
             Triple<BeleidigungsDatensatz, BeleidigungsDatensatz, BeleidigungsDatensatz> next3x = duellService.getNext3x();
@@ -61,9 +63,8 @@ public class IndexController {
             Collections.shuffle(all);
 
             model.addAttribute("start", all.get(random.nextInt(3)));
-
+            return "index";
         }
-        return "index";
     }
 
     @PostMapping

@@ -28,9 +28,10 @@ public class DuellService {
     }
 
     public BeleidigungsDatensatz getFixed(UUID beleidigungsId) {
+        Pair<String, String> randomTuple = losSchimpfosApi.getRandomTuple();
         BeleidigungsDatensatz datensatz = this.queries.findByBeleidigungsId(beleidigungsId);
 
-        return datensatz;
+        return datensatz.fillAntwortTemplate(NSFWFilter.filter(randomTuple.getLeft())).fillBeleidigungsTemplate(NSFWFilter.filter(randomTuple.getRight()));
     }
 
     public boolean win(UUID antwortId, UUID beleididgungsId) {
@@ -44,9 +45,8 @@ public class DuellService {
 
     public BeleidigungsDatensatz getNext() {
 
-        Triple<String, String, String> random3x = losSchimpfosApi.getRandom3x();
-
-        return queries.random();
+        Pair<String, String> randomTuple = losSchimpfosApi.getRandomTuple();
+        return queries.random().fillAntwortTemplate(NSFWFilter.filter(randomTuple.getLeft())).fillBeleidigungsTemplate(NSFWFilter.filter(randomTuple.getRight()));
     }
 
     public Mono<BeleidigungsDatensatz> getNextMono() {
