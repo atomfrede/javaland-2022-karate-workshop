@@ -27,6 +27,12 @@ public class DuellService {
         this.losSchimpfosApi = losSchimpfosApi;
     }
 
+    public BeleidigungsDatensatz getFixed(UUID beleidigungsId) {
+        BeleidigungsDatensatz datensatz = this.queries.findByBeleidigungsId(beleidigungsId);
+
+        return datensatz;
+    }
+
     public boolean win(UUID antwortId, UUID beleididgungsId) {
 
         BeleidigungsDatensatz beleidigungsDatensatz = this.queries.findByBeleidigungsId(beleididgungsId);
