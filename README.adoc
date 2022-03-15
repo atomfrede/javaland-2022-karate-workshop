@@ -1,4 +1,5 @@
 # javaland-2022-karate-workshop
+
 Sample application and code for Testing mit Karate at Javaland 2022
 
 ## Resources
@@ -28,7 +29,22 @@ Simply execute the following docker command:
 $ docker-compose -f docker/postgres.yml up -d
 ----
 
+## Architecture
+
+[plantuml, target=diagram-classes, format=png]
+----
+API - [Duell Application]
+WEB - [Duell Application]
+[Duell Application] ..> JDBC : postgres
+[Duell Application] ..> HTTP : los-schimpfos.de/schimpfos-wortos.php
+----
 
 ## Start Testing
+
+## Follow Us
+
+* https://twitter.com/peter_quiel[@peter_quiel]
+* https://twitter.com/atomfrede[@atomfrede]
+* https://twitter.com/jugpaderborn[@jugpaderborn]
 
 
