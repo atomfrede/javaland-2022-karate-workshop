@@ -12,6 +12,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class DuellService {
@@ -23,6 +25,15 @@ public class DuellService {
     public DuellService(BeleidigungsQueries queries, LosSchimpfosApi losSchimpfosApi) {
         this.queries = queries;
         this.losSchimpfosApi = losSchimpfosApi;
+    }
+
+    public boolean win(UUID antwortId, UUID beleididgungsId) {
+
+        BeleidigungsDatensatz beleidigungsDatensatz = this.queries.findByBeleidigungsId(beleididgungsId);
+        if (Objects.nonNull(beleidigungsDatensatz) && beleidigungsDatensatz.getAntwortId().equals(antwortId)) {
+            return true;
+        }
+        return false;
     }
 
     public BeleidigungsDatensatz getNext() {
@@ -41,21 +52,16 @@ public class DuellService {
 
         Pair<String, String> first = losSchimpfosApi.getRandomTuple();
         Pair<String, String> second = losSchimpfosApi.getRandomTuple();
-        Pair<String, String> thirs = losSchimpfosApi.getRandomTuple();
+        Pair<String, String> third = losSchimpfosApi.getRandomTuple();
 
         List<BeleidigungsDatensatz> beleidigungsDaten = Flux.merge(getNextMono(),
                         getNextMono(),
                         getNextMono())
-                .zipWith(Flux.just(first, second, thirs), (datensatz,pair) -> datensatz.fillBeleidigungsTemplate(pair.getLeft()).fillAntwortTemplate(pair.getRight()))
+                .zipWith(Flux.just(first, second, third), (datensatz,pair) ->
+                        datensatz.fillBeleidigungsTemplate(NSFWFilter.filter(pair.getLeft())).fillAntwortTemplate(NSFWFilter.filter(pair.getRight())))
                 .collectList()
                 .block();
 
         return Triple.of(beleidigungsDaten.get(0), beleidigungsDaten.get(1), beleidigungsDaten.get(2));
-
-
-
-
-
-
     }
 }

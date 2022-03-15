@@ -22,12 +22,6 @@ public class LosSchimpfosApi {
         this.webClient = webClient;
     }
 
-    @CircuitBreaker(name = "losSchimpfosApi", fallbackMethod = "fallback")
-    public String getRandom() {
-        return webClient.get()
-                .exchangeToMono(it -> it.bodyToMono(String.class)).block();
-    }
-
 
     @CircuitBreaker(name = "losSchimpfosApi", fallbackMethod = "fallback")
     @Retry(name = "losSchimpfosApi")
@@ -54,9 +48,9 @@ public class LosSchimpfosApi {
         return Pair.of(strings.get(0), strings.get(1));
     }
 
-    private String fallback() {
+    private Mono<String> fallback() {
 
-        return "Skistiefelvorwärmer";
+        return Mono.just("Skistiefelvorwärmer");
     }
 
 

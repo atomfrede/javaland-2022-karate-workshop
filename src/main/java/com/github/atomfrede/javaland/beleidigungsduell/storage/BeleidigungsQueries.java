@@ -3,6 +3,7 @@ package com.github.atomfrede.javaland.beleidigungsduell.storage;
 import static com.github.atomfrede.javaland.beleidigungsduell.gen.jooq.Tables.BELEIDIGUNG;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
@@ -26,6 +27,10 @@ public class BeleidigungsQueries {
         jooq.deleteFrom(BELEIDIGUNG).where(BELEIDIGUNG.ID.eq(id)).execute();
     }
 
+    public BeleidigungsDatensatz findByBeleidigungsId(UUID id) {
+        return jooq.selectFrom(BELEIDIGUNG).where(BELEIDIGUNG.BELEIDIGUNGS_ID.eq(id))
+                .fetchOptional().map(this::mapBeleidigungsDatensatz).orElse(null);
+    }
     public BeleidigungsDatensatz find(Long id) {
 
         return jooq.selectFrom(BELEIDIGUNG).where(BELEIDIGUNG.ID.eq(id))
