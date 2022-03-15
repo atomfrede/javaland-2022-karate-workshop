@@ -1,12 +1,14 @@
 Feature: Los Schimpfos API mock
 
   Background:
+    * def wait = (waitInMillis) => { java.lang.Thread.sleep(waitInMillis)}
     * def delay = 0
     * def nextStatus = 200
     * def nextBeleidigungDefault = "AbstractGenericIdiot"
     * def nextBeleidigung = nextBeleidigungDefault
 
   Scenario: methodIs('get') && pathMatches('/schimpfos-wortos.php')
+    * wait(delay)
     * def responseStatus = nextStatus
     * def response = nextBeleidigung
 
